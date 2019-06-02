@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="./node_modules/xterm/lib/xterm.css" />
+    <script type="text/javascript" src="./node_modules/socket.io-client/dist/socket.io.js"></script>
+    <script type="text/javascript" src="./node_modules/xterm/dist/xterm.js"></script>
+    <script type="text/javascript" src="./node_modules/xterm/dist/addons/fit/fit.js"></script>
+    <script type="text/javascript" src="../dist/attach.js"></script>
+</head>
+
+<body>
+    <div id="term"></div>
+</body>
+<script>
+    var term = new Terminal();
+    term.open(document.getElementById("term"));
+    Terminal.applyAddon(fit);
+    term.fit();
+
+    var socket = io.connect("http://localhost:1001");
+    socket.on("connect", function () {
+        app(Terminal);
+        term.attach(socket);
+    });
+</script>
+
+</html>
