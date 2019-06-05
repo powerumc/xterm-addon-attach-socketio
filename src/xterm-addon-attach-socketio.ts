@@ -15,6 +15,7 @@ interface IAttachSoketIoAddonTerminal extends IAttachAddonTerminal {
   __getMessageSocketIo: (data: any) => void;
 }
 
+
 /**
  * Attaches the given terminal to the given socket.
  *
@@ -31,8 +32,6 @@ export function attach(term: Terminal, socket: SocketIOClient.Socket, bidirectio
 
   addonTerminal.__flushBuffer = () => {
     addonTerminal.write(addonTerminal.__attachSocketBuffer || "");
-    // addonTerminal.__attachSocketBuffer = null;
-    // addonTerminal.__attachSocketBuffer = undefined;
   };
 
   addonTerminal.__pushToBuffer = (data: string) => {
@@ -138,5 +137,3 @@ export function apply(terminalConstructor: typeof Terminal): void {
     detach(this, socket);
   };
 }
-
-(<any>window).app = apply;

@@ -1,7 +1,7 @@
 const path = require("path");
 
 module.exports = {
-  entry: path.resolve(__dirname, "src", "xterm-addon-attach-socketio.ts"),
+  entry: path.resolve(__dirname, "src", "xterm-addon-attach-socketio.browserify.ts"),
   devtool: "inline-source-map",
   module: {
     rules: [

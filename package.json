@@ -34,9 +34,9 @@
     "typescript": "^3.2.2",
     "webpack": "^4.31.0",
     "ws": "^7.0.0",
-    "xterm": "3.14.0-beta12"
+    "xterm": "3.14.2"
   },
   "peerDependencies": {
-    "xterm": "^3.10.0"
+    "xterm": "3.14.2"
   }
 }
