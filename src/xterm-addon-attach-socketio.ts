@@ -5,8 +5,6 @@
  * Implements the attach method, that attaches the terminal to a SocketIo.Socket stream.
  */
 
- /// <reference path="../node_modules/@types/socket.io-client/index.d.ts" />
-
 import { Terminal, IDisposable } from "xterm";
 import { IAttachAddonTerminal } from "xterm/lib/addons/attach/Interfaces";
 
@@ -21,13 +19,12 @@ interface IAttachSoketIoAddonTerminal extends IAttachAddonTerminal {
  *
  * @param term The terminal to be attached to the given socket.
  * @param socket The socket to attach the current terminal.
- * @param bidirectional Whether the terminal should send data to the socket as well.
+ * @param d Whether the terminal should send data to the socket as well.
  * @param buffered Whether the rendering of incoming data should happen instantly or at a maximum
  * frequency of 1 rendering per 10ms.
  */
-export function attach(term: Terminal, socket: SocketIOClient.Socket, bidirectional: boolean, buffered: boolean): void {
+export function attach(term: Terminal, socket: SocketIOClient.Socket): void {
   const addonTerminal = <IAttachSoketIoAddonTerminal>term;
-  bidirectional = (typeof bidirectional === "undefined") ? true : bidirectional;
   addonTerminal.__socketio = socket;
 
   addonTerminal.__flushBuffer = () => {
@@ -55,26 +52,17 @@ export function attach(term: Terminal, socket: SocketIOClient.Socket, bidirectio
   * @param data The data of the EventMessage.
   */
   function displayData(str?: string, data?: string): void {
-    if (buffered) {
-      addonTerminal.__pushToBuffer && addonTerminal.__pushToBuffer(str || data || "");
-    } else {
-      addonTerminal.write(str || data || "");
-    }
+    addonTerminal.write(str || data || "");
   }
 
   addonTerminal.__sendData = (data: string) => {
-    // remove: if (socket.readyState !== 1) {
-    // remove:   return;
-    // remove: }
     socket.send(data);
   };
 
   addonTerminal._core.register(addSocketListener(socket, "message", addonTerminal.__getMessageSocketIo));
 
-  if (bidirectional) {
-    addonTerminal.__dataListener = addonTerminal.onData(addonTerminal.__sendData);
-    addonTerminal._core.register(addonTerminal.__dataListener);
-  }
+  addonTerminal.__dataListener = addonTerminal.onData(addonTerminal.__sendData);
+  addonTerminal._core.register(addonTerminal.__dataListener);
 
   addonTerminal._core.register(addSocketListener(socket, "close", () => detach(addonTerminal, socket)));
   addonTerminal._core.register(addSocketListener(socket, "error", () => detach(addonTerminal, socket)));
@@ -89,7 +77,6 @@ function addSocketListener(socket: SocketIOClient.Socket, type: string, handler:
         return;
       }
       socket.removeEventListener(type, handler);
-      // remove: handler = null;
     }
   };
 }
@@ -124,8 +111,8 @@ export function apply(terminalConstructor: typeof Terminal): void {
    * @param buffered Whether the rendering of incoming data should happen instantly or at a maximum
    * frequency of 1 rendering per 10ms.
    */
-  (<any>terminalConstructor.prototype).attach = function (socket: SocketIOClient.Socket, bidirectional: boolean, buffered: boolean): void {
-    attach(this, socket, bidirectional, buffered);
+  (<any>terminalConstructor.prototype).attach = function (socket: SocketIOClient.Socket): void {
+    attach(this, socket);
   };
 
   /**
