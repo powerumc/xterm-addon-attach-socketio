@@ -15,8 +15,7 @@
         "node-pty": "^0.8.1",
         "socket.io": "2.2.0",
         "socket.io-client": "2.2.0",
-        "xterm": "3.14.0",
-        "xterm-addon-attach-socketio": "file:.."
+        "xterm": "3.14.0"
     },
     "devDependencies": {
         "@types/node": "10.0.3",

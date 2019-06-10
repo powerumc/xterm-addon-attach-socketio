@@ -1,5 +1,6 @@
 lib/**/*.js.map
 src/
-node_modules/
+node_modules
 tsconfig.json
 .editorconfig
+.vscode
