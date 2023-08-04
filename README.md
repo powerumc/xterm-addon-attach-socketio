@@ -10,8 +10,10 @@ npm install xterm-addon-attach-socketio
 
 ## Demo
 
-### Servver
+### Server
 ```bash
+npm i
+
 tsc -p demo
 node demo/server.js
 ```
@@ -20,3 +22,6 @@ node demo/server.js
 ```bash
 open demo/index.html
 ```
+
+
+![](./demo/demo.mov)
