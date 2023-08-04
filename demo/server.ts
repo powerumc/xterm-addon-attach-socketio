@@ -4,7 +4,7 @@ import socketio from "socket.io";
 import * as pty from "node-pty";
 
 const server = http.createServer(express());
-const io = socketio(server);
+const io = socketio(server, {cors: {origin: "*", methods: ["GET", "POST"]}});
 
 server.listen(1001);
 console.log("Listening on *:1001");
