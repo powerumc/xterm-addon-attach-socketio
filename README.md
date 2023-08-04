@@ -24,4 +24,6 @@ open demo/index.html
 ```
 
 
-![](./demo/demo.mov)
+
+https://github.com/powerumc/xterm-addon-attach-socketio/assets/1943755/7ed00158-cb40-4f96-8634-1a91f24c355f
+
